@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">To do List</string>
+    <string name="title_task">Titulo</string>
+    <string name="description_task">Descrição</string>
+    <string name="subject">Tarefa Feita</string>
+    <string name="text_extra">"Olha isso! Eu acabei de terminar: "</string>
+    <string name="notificationError">[ERRO] Campo Titulo é Obrigatorio</string>
+</resources>

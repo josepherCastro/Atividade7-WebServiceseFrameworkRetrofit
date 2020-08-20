@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:visibility="visible"
+    app:cardBackgroundColor="#7286A0">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/etTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toStartOf="@+id/btSave"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:hint="@string/title_task"/>
+
+        <ImageButton
+            android:id="@+id/btSave"
+            android:layout_width="48dp"
+            android:layout_height="45dp"
+            android:background="#3359594A"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/etTitle"
+            app:srcCompat="@android:drawable/ic_menu_save" />
+
+        <ImageButton
+            android:id="@+id/btDelete"
+            android:layout_width="48dp"
+            android:layout_height="45dp"
+            android:background="#3359594A"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btSave"
+            app:layout_constraintVertical_bias="1.0"
+            app:srcCompat="@android:drawable/ic_menu_delete" />
+
+        <EditText
+            android:id="@+id/etDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:gravity="start|top"
+            android:inputType="textMultiLine"
+            app:layout_constraintEnd_toStartOf="@+id/btDelete"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etTitle"
+            android:hint="@string/description_task"/> />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

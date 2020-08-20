@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">To do List</string>
+    <string name="title_task">Title</string>
+    <string name= "description_task">Description</string>
+    <string name="subject">Task Done</string>
+    <string name="text_extra">Look at this! I just finished:</string>
+    <string name="notificationError">[ERROR] Title field is required</string>>
+</resources>

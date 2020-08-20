@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">To do List</string>
+    <string name="subject">Задача свършена</string>
+    <string name="text_extra">" Виж това! Току-що приключих:"</string>
+    <string name="description_task">описание</string>
+    <string name="title_task">Заглавие</string>
+    <string name="notificationError">" [ГРЕШКА] Полето за заглавие е задължително"</string>
+</resources>
