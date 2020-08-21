@@ -9,24 +9,27 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import br.edu.ifpr.josepher.trabalhoroomsqliterecyclerview.adapters.TaskAdapter
 import br.edu.ifpr.josepher.trabalhoroomsqliterecyclerview.adapters.TaskAdapterListener
-import br.edu.ifpr.josepher.trabalhoroomsqliterecyclerview.database.AppDatabase
-import br.edu.ifpr.josepher.trabalhoroomsqliterecyclerview.database.dao.TaskDao
+import br.edu.ifpr.josepher.trabalhoroomsqliterecyclerview.api.TaskService
 import br.edu.ifpr.josepher.trabalhoroomsqliterecyclerview.model.Task
 import kotlinx.android.synthetic.main.activity_main.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity() , TaskAdapterListener{
     private lateinit var adapter: TaskAdapter
-    private lateinit var dao: TaskDao
+    private lateinit var service: TaskService
+    private lateinit var retrofit: Retrofit
+    private lateinit var tasks: MutableList<Task>
     private var removeFromList = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "tasks-db")
-            .allowMainThreadQueries()
-            .build()
-        dao = db.taskDao()
+        retrofitStart()
 
         fab_AddTask.setOnClickListener{
             if (!removeFromList) {
@@ -41,18 +44,23 @@ class MainActivity : AppCompatActivity() , TaskAdapterListener{
 
     override fun taskRemoved(task: Task) {
         enableRemoveFromList(false)
-        dao.delete(task)
         loadData()
     }
 
     override fun taskSave(task: Task) {
+        service.insert(task).enqueue(object : Callback<Task>{
+            override fun onFailure(call: Call<Task>, t: Throwable) {}
+            override fun onResponse(call: Call<Task>, response: Response<Task>) {
+                val insertedTask = response.body()!!
+                task.id = insertedTask.id
+                tasks.add(0, task)
+            }
+        })
         enableRemoveFromList(false)
-        dao.insert(task)
         loadData()
     }
 
     override fun taskChange(task: Task) {
-        dao.update(task)
         loadData()
     }
 
@@ -78,11 +86,26 @@ class MainActivity : AppCompatActivity() , TaskAdapterListener{
     }
 
     private fun loadData(){
-        val tasks = dao.getAll().toMutableList()
+//        val tasks = dao.getAll().toMutableList()
 
         adapter = TaskAdapter(tasks.toMutableList(), this, applicationContext)
         rc_tasks.adapter = adapter
         rc_tasks.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
     }
+    private fun retrofitStart(){
+        retrofit = Retrofit.Builder()
+            .baseUrl("http://127.0.0.1/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        service = retrofit.create(TaskService::class.java)
+        tasks = mutableListOf()
 
+        service.getAll().enqueue(object : Callback<List<Task>> {
+            override fun onFailure(call: Call<List<Task>>, t: Throwable) {}
+            override fun onResponse(call: Call<List<Task>>, response: Response<List<Task>>) {
+                tasks = response.body()!!.toMutableList()
+                loadData()
+            }
+        })
+    }
 }

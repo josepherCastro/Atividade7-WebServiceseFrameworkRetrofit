@@ -11,14 +11,15 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import br.edu.ifpr.josepher.trabalhoroomsqliterecyclerview.R
-import br.edu.ifpr.josepher.trabalhoroomsqliterecyclerview.database.AppDatabase
-import br.edu.ifpr.josepher.trabalhoroomsqliterecyclerview.database.dao.TaskDao
+import br.edu.ifpr.josepher.trabalhoroomsqliterecyclerview.api.TaskService
 import br.edu.ifpr.josepher.trabalhoroomsqliterecyclerview.model.Task
 import kotlinx.android.synthetic.main.edit_one_task.view.*
 import kotlinx.android.synthetic.main.one_task.view.*
+import retrofit2.Retrofit
 
 class TaskAdapter(val tasks: MutableList<Task>, val listener: TaskAdapterListener, context: Context):
     RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
+
     var taskEditing : Task? = null
     var lastNewTaskEditing : Task? = null
 
